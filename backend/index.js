@@ -43,6 +43,7 @@ app.use(
     ":method :url :status :res[content-length] - :response-time ms :body :date[web] :remote-addr"
   )
 );
+app.use(express.static("dist"));
 
 // const unknownEndpoint = (request, response) => {
 //   response.status(404).send({ error: "unknown endpoint" });
