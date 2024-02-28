@@ -2,6 +2,7 @@
 // const cors = require("cors");
 import express from "express";
 import cors from "cors";
+import morgan from "morgan";
 
 let notes = [
   {
@@ -21,25 +22,30 @@ let notes = [
   },
 ];
 
-const requestLogger = (request, response, next) => {
-  console.log("Method:", request.method);
-  console.log("Path:  ", request.path);
-  console.log("Body:  ", request.body);
-  console.log("---");
-  next();
-};
+// const requestLogger = (request, response, next) => {
+//   console.log("Method:", request.method);
+//   console.log("Path:  ", request.path);
+//   console.log("Body:  ", request.body);
+//   console.log("---");
+//   next();
+// };
 
 const app = express();
 
 app.use(express.json());
 
-app.use(requestLogger);
+// app.use(requestLogger);
 
 app.use(cors());
+app.use(
+  morgan(
+    ":method :url :status :res[content-length] - :response-time ms :body :date[web] :remote-addr"
+  )
+);
 
-const unknownEndpoint = (request, response) => {
-  response.status(404).send({ error: "unknown endpoint" });
-};
+// const unknownEndpoint = (request, response) => {
+//   response.status(404).send({ error: "unknown endpoint" });
+// };
 
 app.get("/", (request, response) => {
   response.send("<h1>Hello also changes to new World!</h1>"); //res.send(data): sends plain text data
@@ -107,7 +113,10 @@ app.post("/api/notes", (request, response) => {
   response.json(note);
 });
 
-app.use(unknownEndpoint);
+// app.use(unknownEndpoint);
+morgan.token("body", (req) => {
+  return JSON.stringify(req.body);
+});
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
