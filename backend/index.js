@@ -20,7 +20,14 @@ const cors = require("cors");
 
 app.use(cors());
 
+//a middleware, helps to access the body of the request
+//without this, the body is undefined
+//this json-parser takes the JSON data of  a request,
+//transforms it into a JavaScript object
+//and then attaches it to the body property
+//of the request object before the route handler is called
 app.use(express.json());
+
 app.use(requestLogger);
 
 const unknownEndpoint = (request, response) => {
@@ -55,9 +62,18 @@ app.post("/api/notes", (request, response) => {
 });
 
 app.get("/api/notes/:id", (request, response) => {
-  Note.findById(request.params.id).then((note) => {
-    response.json(note);
-  });
+  Note.findById(request.params.id)
+    .then((note) => {
+      if (note) {
+        response.json(note);
+      } else {
+        response.status(404).end();
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+      response.status(500).end();
+    });
 });
 
 app.delete("/api/notes/:id", (request, response) => {
