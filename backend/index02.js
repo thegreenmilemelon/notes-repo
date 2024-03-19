@@ -4,8 +4,6 @@ require("dotenv").config();
 
 const Note = require("./models/note");
 
-let notes = [];
-
 app.use(express.static("dist"));
 
 const requestLogger = (request, response, next) => {
