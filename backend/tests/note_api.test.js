@@ -180,3 +180,7 @@ after(async () => {
 //npm test -- --test-name-pattern="the first note is about HTTP methods"
 
 // npm run test -- --test-name-pattern="notes"
+//if different test are running in different files
+//use
+//npm test --test-concurrency=1
+//cuz the test is sharing the same database
