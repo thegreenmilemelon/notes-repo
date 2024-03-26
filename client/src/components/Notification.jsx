@@ -1,5 +1,4 @@
-import React from "react";
-
+/* eslint-disable react/prop-types */
 function Notification({ message }) {
   if (message === null) {
     return null;
