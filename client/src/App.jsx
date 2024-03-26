@@ -131,26 +131,22 @@ const App = () => {
     <div>
       <h1>Notes</h1>
       <Notification message={errorMessage} />
-      {user === null && loginForm()}
-      {user !== null && noteForm()}
+      {user === null ? loginForm() : noteForm()}
       <div>
         <button onClick={() => setShowAll(!showAll)}>
           show {showAll ? "important" : "all"}
         </button>
       </div>
       <ul>
-        {notesToShow.map((note) => (
+        {notesToShow.map((note, i) => (
           <Note
-            key={note.id}
+            key={i}
             note={note}
             toggleImportanceof={() => toggleImportanceof(note.id)}
           />
         ))}
       </ul>
-      <form onSubmit={addNote}>
-        <input value={newNote} onChange={handleNoteChange} />
-        <button type="submit">save</button>
-      </form>
+
       <Currency />
       <Footer />
     </div>
